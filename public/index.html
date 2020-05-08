@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <form id="chat">
+      <input type="text" name="username" placeholder="Type your username">
+      <div class="messages"></div>
+      <input type="text" name="message" placeholder="Type your message">
+      <button type="submit">Send!</button>
+    </form>
+    <script type="text/javascript">
+      var socket = io('http://localhost:3000');
+      document.getElementById('chat').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var author = document.getElementByName('username')[0].value;
+        var message = document.getElementByName('message')[0].value;
+
+        if(author.length && message.length) {
+          var messageObject = {
+            author: author,
+            message: message,
+          };
+
+          socket.emit('sendMessage', messageObject);
+        }
+      });
+    </script>
+  </body>
+</html>

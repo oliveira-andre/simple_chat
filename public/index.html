@@ -13,12 +13,19 @@
       <button type="submit">Send!</button>
     </form>
     <script type="text/javascript">
+      function renderMessage(message) {
+        document.getElementsByClassName('messages')[0].insertAdjacentHTML('beforeend',
+          `<div class="message">
+            <strong>${message.author}</strong>: ${message.message}
+          </div>`
+        );
+      };
       var socket = io('http://localhost:3000');
       document.getElementById('chat').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        var author = document.getElementByName('username')[0].value;
-        var message = document.getElementByName('message')[0].value;
+        var author = document.getElementsByName('username')[0].value;
+        var message = document.getElementsByName('message')[0].value;
 
         if(author.length && message.length) {
           var messageObject = {
@@ -26,6 +33,7 @@
             message: message,
           };
 
+          renderMessage(messageObject);
           socket.emit('sendMessage', messageObject);
         }
       });

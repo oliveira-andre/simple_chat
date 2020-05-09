@@ -20,7 +20,12 @@
           </div>`
         );
       };
+
       var socket = io('http://localhost:3000');
+      socket.on('receivedMessage', function(message) {
+        renderMessage(message);
+      });
+
       document.getElementById('chat').addEventListener('submit', function(e) {
         e.preventDefault();
 
